@@ -27,7 +27,7 @@ export default {
         signup(){
             var xhr = new XMLHttpRequest();
             var url = "http://0.0.0.0:5000/auth/signup";
-            xhr.open("POST", url, );
+            xhr.open("POST", url );
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -35,8 +35,8 @@ export default {
                 console.log(json.id);
                 }
             }
-            xhr.send(this.input)
-            console.log("aaaa");
+            xhr.send(JSON.stringify(this.input))
+            console.log(json.id);
         }
     }
 }
