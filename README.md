@@ -1,4 +1,4 @@
-# mw-front
+# iMage front-end
 
 ## Project setup
 ```
