@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import router from '../router/index.js'
 
 export default {
     name: 'Signup',
@@ -22,17 +21,28 @@ export default {
                     last_name: "",
                     email: "",
                     password: ""
-                }
+                },
+                res:{}
             }
         },
     methods: {
         signup(){
             const axios = require('axios');
-            axios.post('http://0.0.0.0:5000/auth/signup', this.input)
-            .then(function (response) {
-                console.log(response);
-                router.push({ name: "secure" });
-            })
+            axios
+            .post('http://0.0.0.0:5000/auth/signup', this.input)
+            .then(
+                response => {
+                    this.res = response.data
+                    console.log(JSON.stringify(response.data))
+
+                    for (var i = 0; i < this.$router.options.routes.length; i++) {
+                        if (this.$router.options.routes[i]['name'] === 'profile')
+                            break
+                    }
+                    this.$router.options.routes[i].meta = response.data.authentication
+                    this.$router.replace({path:"/profile/" + response.data.user.id})
+                }
+            )
             .catch(function (error) {
                 console.log(error);
             });
