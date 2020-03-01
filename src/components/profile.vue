@@ -1,6 +1,6 @@
 <template>
     <div id="profile">
-        <h1>Hello {{ res.first_name }}</h1>
+        <h1>Hello {{ res.first_name }}!</h1>
         <body>
            TODO: add user infos and functionalities
         </body>

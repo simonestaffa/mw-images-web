@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LoginComponent from "../components/login.vue"
 import ProfileComponent from "../components/profile.vue"
 import SignupComponent from "../components/signup.vue"
 
@@ -11,13 +10,8 @@ export default new Router({
         {
             path: '/',
             redirect: {
-                name: "login"
+                name: "signup"
             }
-        },
-        {
-            path: "/login",
-            name: "login",
-            component: LoginComponent
         },
         {
             path: "/signup",
