@@ -21,7 +21,7 @@
         },
         mounted() {
             if(!this.authenticated) {
-                this.$router.replace({ name: "login" });
+                this.$router.replace({ name: "signup" });
             }
         },
         methods: {
@@ -35,9 +35,10 @@
     }
 </script>
 
-<style>
-    body {
-        background-color: #F0F0F0;
+<style lang="scss">
+    @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+    div {
+        font-family: 'Ubuntu', serif;
     }
     h1 {
         padding: 0;
