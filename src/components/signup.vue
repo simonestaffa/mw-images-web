@@ -46,16 +46,13 @@ export default {
                     this.res = response.data
                     console.log(JSON.stringify(response.data))
 
-                    for (var i = 0; i < this.$router.options.routes.length; i++) {
-                        if (this.$router.options.routes[i]['name'] === 'profile')
-                            break
-                    }
-                    this.$router.options.routes[i].meta = response.data.authentication
+                    localStorage.setItem('user-token', response.data.authentication.access_token)
                     this.$router.replace({path:"/profile/" + response.data.user.id})
                 }
             )
             .catch(function (error) {
-                console.log(error);
+                localStorage.removeItem('user-token')
+                console.log(error)
             });
         },
 
@@ -64,7 +61,7 @@ export default {
                 ['email', this.input.email], ['password', this.input.password] 
                 ])
             payload = Object.fromEntries(payload)
-            const axios = require('axios');
+            const axios = require('axios')
             axios
             .post('http://0.0.0.0:5000/auth/login', payload)
             .then(
@@ -72,16 +69,14 @@ export default {
                     this.res = response.data
                     console.log(JSON.stringify(response.data))
 
-                    for (var i = 0; i < this.$router.options.routes.length; i++) {
-                        if (this.$router.options.routes[i]['name'] === 'profile')
-                            break
-                    }
-                    this.$router.options.routes[i].meta = response.data.authentication
+                    localStorage.setItem('user-token', response.data.authentication.access_token)
+                    
                     this.$router.replace({path:"/profile/" + response.data.user.id})
                 }
             )
             .catch(function (error) {
-                console.log(error);
+                localStorage.removeItem('user-token')
+                console.log(error)
             });
         },
         
