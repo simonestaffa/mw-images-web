@@ -12,17 +12,12 @@
     name: 'App',
     data() {
       return {
-        authenticated: false,
-        mockAccount: {
-          username: "admin",
-          password: "password"
-        }
+        authenticated: false
       }
     },
     mounted() {
       if (localStorage.getItem('user-token')) {
         this.authenticated = true;
-
       }
       if (this.authenticated) {
         this.$router.replace({name: "profile"});
