@@ -118,11 +118,11 @@
               console.log(JSON.stringify(response.data));
 
               localStorage.setItem('user-token', response.data.authentication.access_token);
-              this.$router.replace({path: "/profile/" + response.data.user.id})
+              this.$router.replace({path: "/profile/"})
             }
           )
           .catch((e) => {
-            console.log(JSON.stringify(e.response.data))
+            console.log(JSON.stringify(e.response.data));
             if (e.response.status === 422){
 
             }
@@ -158,7 +158,7 @@
 
               localStorage.setItem('user-token', response.data.authentication.access_token);
 
-              this.$router.replace({path: "/profile/" + response.data.user.id})
+              this.$router.replace({path: "/profile/"})
             }
           )
           .catch((e) => {

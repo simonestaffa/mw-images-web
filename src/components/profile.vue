@@ -1,15 +1,19 @@
 <template>
-    <div id="profile">
-        <h1>Hello {{ res.first_name }}!</h1>
-        <body>
-        TODO: add user infos and functionalities
-        <input type="file" accept="image/*" @change="uploadImage" id="file-input">
-        <router-link to="/signup" replace>Logout</router-link>
-        </body>
+    <div id="profile" class="card">
+        <div class="card-body">
+            <h1>Hello {{ res.first_name }}!</h1>
+            TODO: add user infos and functionalities
+            <br><br>
+            <input type="file" accept="image/*" @change="uploadImage" id="file-input"><br><br>
+            <button type="button" class="btn btn-danger" v-on:click="logout">Logout</button>
+        </div>
+
     </div>
 </template>
 
 <script>
+  import * as axios from "axios";
+
   export default {
     name: 'Profile',
     data() {
@@ -20,20 +24,27 @@
       };
     },
     mounted() {
-      this.token = localStorage.getItem('user-token')
-      this.id = this.$route.params.id
-      const axios = require('axios');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-      console.log(this.id);
+      this.token = localStorage.getItem('user-token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
       axios
-        .get('http://0.0.0.0:5000/users/' + this.id)
+        .get('http://0.0.0.0:5000/users/me')
         .then(response => (
-          this.res = response.data,
-            console.log(JSON.stringify(response))
+          this.res = response.data
         ))
         .catch(error => (console.log(error)));
     },
     methods: {
+      logout() {
+        this.token = localStorage.getItem('user-token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+        axios
+          .post('http://0.0.0.0:5000/auth/logout')
+          .then(response => {
+            localStorage.removeItem("user-token");
+              this.$router.replace({path: "/signup"});
+            })
+          .catch(error => (console.log(error)));
+      },
       getBase64(file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
