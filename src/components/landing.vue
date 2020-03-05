@@ -168,6 +168,7 @@
             response => {
               this.res = response.data;
               localStorage.setItem('user-token', response.data.authentication.access_token);
+              this.$api.token = response.data.authentication.access_token;
               this.$router.replace({path: "home"})
             }
           )
@@ -200,6 +201,7 @@
             response => {
               this.res = response.data;
               localStorage.setItem('user-token', response.data.authentication.access_token);
+              this.$api.token = response.data.authentication.access_token;
               this.$router.replace({path: "/home/"})
             }
           )

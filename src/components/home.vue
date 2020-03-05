@@ -7,7 +7,6 @@
             <input type="file" accept="image/*" @change="uploadImage" id="file-input"><br><br>
             <button type="button" class="btn btn-danger" v-on:click="logout">Logout</button>
         </div>
-
     </div>
 </template>
 
@@ -24,8 +23,10 @@
       };
     },
     mounted() {
-      this.token = localStorage.getItem('user-token');
-      this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+      if (!this.$api.token){
+        this.$router.replace({path: "/landing"});
+      }
+      this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
       this.$api.get('/users/me')
         .then(response => (
           this.res = response.data
@@ -34,13 +35,13 @@
     },
     methods: {
       logout() {
-        this.token = localStorage.getItem('user-token');
-        this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+        this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
         this.$api.post('/auth/logout')
           .then(response => {
             localStorage.removeItem("user-token");
-              this.$router.replace({path: "/landing"});
-            })
+            this.$api.token = "";
+            this.$router.replace({path: "/landing"});
+          })
           .catch(error => (console.log(error)));
       },
       getBase64(file) {
@@ -48,12 +49,12 @@
         reader.readAsDataURL(file);
         reader.onload = () => {
           console.log('xy');
-          this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
           let payload = new Map([
             ['title', file.name],
             ['image_base64', reader.result.substring(reader.result.indexOf(",") + 5)]
           ]);
           payload = Object.fromEntries(payload);
+          this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
           this.$api.post('/images', payload)
             .then(response => {
               console.log('xy');
