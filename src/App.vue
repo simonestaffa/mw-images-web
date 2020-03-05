@@ -20,7 +20,7 @@
         this.authenticated = true;
       }
       if (this.authenticated) {
-        this.$router.replace({name: "profile"});
+        this.$router.replace({name: "signup"});
       }
     },
     methods: {

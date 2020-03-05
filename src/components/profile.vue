@@ -34,44 +34,53 @@
         .catch(error => (console.log(error)));
     },
     methods: {
-      logout() {
-        this.token = localStorage.getItem('user-token');
-        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-        axios
-          .post('http://0.0.0.0:5000/auth/logout')
-          .then(response => {
-            localStorage.removeItem("user-token");
-              this.$router.replace({path: "/signup"});
-            })
-          .catch(error => (console.log(error)));
-      },
-      getBase64(file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-          return reader.result;
-        };
-        reader.onerror = function (error) {
-          console.log('Error: ', error);
-        };
-      },
-      uploadImage(event) {
-        const axios = require('axios');
-        const URL = 'http://0.0.0.0:5000';
+        logout() {
+            this.token = localStorage.getItem('user-token');
+            axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+            axios
+            .post('http://0.0.0.0:5000/auth/logout')
+            .then(response => {
+                localStorage.removeItem("user-token");
+                this.$router.replace({path: "/signup"});
+                })
+            .catch(error => (console.log(error)));
+        },
 
-        let file = event.target.files[0];
-        const fileBase64 = this.getBase64(file);
-        let config = {
-          header: {
-            'Content-Type': 'image/png'
-          }
+        getBase64(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = function () {
+                const axios = require('axios');
+                axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+                let payload = new Map([
+                    ['title', file.name], 
+                    ['image_base64', reader.result.substring(reader.result.indexOf(",") + 5)] 
+                    ]);
+                payload = Object.fromEntries(payload)
+                console.log(reader.result)
+                axios
+                .post('http://0.0.0.0:5000/images', payload)
+                .then(response => {
+                    this.res = response.data
+                    console.log(JSON.stringify(response.data))
+                })
+                .catch(function (error) {
+                console.log(error)
+                });
+            }
+
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            }
+        },
+
+        uploadImage(event) {
+            let file = event.target.files[0];
+            this.getBase64(file)
         }
-
-        //axios post here
-
-      }
     }
-  }
+}
 </script>
 
 <style scoped>
