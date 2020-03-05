@@ -1,27 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ProfileComponent from "../components/profile.vue"
-import SignupComponent from "../components/signup.vue"
+import HomeComponent from "../components/home.vue"
+import LandingComponent from "../components/landing.vue"
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     routes: [
         {
-            path: '/',
+            path: "/",
             redirect: {
-                name: "signup"
+                name: "landing"
             }
         },
         {
-            path: "/signup",
-            name: "signup",
-            component: SignupComponent
+            path: "/landing",
+            name: "landing",
+            component: LandingComponent
         },
         {
-            path: "/profile",
-            name: "profile",
-            component: ProfileComponent,
+            path: "/home",
+            name: "home",
+            component: HomeComponent,
         }
     ]
 }) 

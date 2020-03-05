@@ -1,8 +1,5 @@
 <template>
     <div id="app" class="container">
-        <!--<div id="nav">
-                <router-link v-if="!authenticated" to="/signup">Signup</router-link>
-            </div>-->
         <router-view @authenticated="setAuthenticated"/>
     </div>
 </template>
@@ -16,12 +13,7 @@
       }
     },
     mounted() {
-      if (localStorage.getItem('user-token')) {
-        this.authenticated = true;
-      }
-      if (this.authenticated) {
-        this.$router.replace({name: "signup"});
-      }
+
     },
     methods: {
       setAuthenticated(status) {
@@ -49,5 +41,9 @@
     #app {
         width: 1024px;
         margin: auto;
+    }
+
+    body {
+        padding-bottom: 150px;
     }
 </style>

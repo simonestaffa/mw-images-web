@@ -1,1 +1,60 @@
-$primary #5397D1;
+$primary: #EFA861;
+$primary-hover: #D39454;
+$action: #8F3F85;
+$action-hover: #783670;
+$secondary: #5397D1;
+$secondary-hover: #4C8BC1;
+
+.btn-secondary,
+.btn-secondary:active,
+.btn-secondary:visited,
+.btn-secondary:focus {
+  background-color: $secondary;
+  border-color: $secondary;
+}
+
+.btn-secondary:hover {
+  background-color: $secondary-hover;
+  border-color: $secondary-hover;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.btn-primary:hover {
+  background-color: $primary-hover;
+  border-color: $primary-hover;
+}
+
+.btn-action,
+.btn-action:active,
+.btn-action:visited,
+.btn-action:focus {
+  @extend .btn-primary;
+  background-color: $action;
+  border-color: $action;
+  color: white;
+}
+
+.btn-action:hover {
+  @extend .btn-primary:hover;
+  background-color: $action-hover;
+  border-color: $action-hover;
+  color: white;
+}
+
+.btn-round{
+  border-radius: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.card.no-border {
+  border: none;
+}
+
