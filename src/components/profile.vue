@@ -3,6 +3,8 @@
         <h1>Hello {{ res.first_name }}!</h1>
         <body>
            TODO: add user infos and functionalities
+           <input type="file" accept="image/*" @change="uploadImage" id="file-input">
+           <router-link to="/signup" replace>Logout</router-link>
         </body>
     </div>
 </template>
@@ -18,13 +20,8 @@
             };
         },
         mounted(){
+            this.token = localStorage.getItem('user-token')
             this.id = this.$route.params.id
-            for (var i = 0; i < this.$router.options.routes.length; i++) {
-                if (this.$router.options.routes[i]['name'] === 'profile')
-                    break
-            }
-            this.token = this.$router.options.routes[i].meta.access_token
-            
             const axios = require('axios');
             axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
             console.log(this.id);
@@ -35,8 +32,24 @@
                     console.log(JSON.stringify(response))
                     ))
                 .catch(error => (console.log(error)));
+        },
+        methods: {
+            uploadImage(event) {
+                const axios = require('axios');
+                const URL = 'http://0.0.0.0:5000'; 
+
+                let file = event.target.files[0]; 
+
+                let config = {
+                header : {
+                    'Content-Type' : 'image/png'
+                    }
+                }
+
+                //axios post here
+                
+            }
         }
-        
     }
 </script>
 
