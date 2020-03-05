@@ -8,13 +8,6 @@ import axios from 'axios'
 Vue.use({
   install (Vue) {
     Vue.prototype.$api = axios.create({
-      headers: {
-        common: {
-          Authorization: {
-
-          }
-        }
-      },
       token: "",
       baseURL: 'http://localhost:5000/'
     })
