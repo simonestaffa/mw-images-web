@@ -94,14 +94,16 @@
                       <div id="searchResults">
                         <ul id="user-list">
                           <li v-for="user in users" :key="user.id" 
-                          v-if="isFiltered(user.first_name)">
-                            {{ user.first_name }}
+                          v-if="isFiltered(user.first_name + user.last_name)">
+                            {{ user.first_name + " " + user.last_name}}
                           </li>
                         </ul>
                       </div>
                     </div>
                     <div id="profile-tab" v-else-if="isActive === 'profile'">
-                        Profile - call Retrieve User Profile
+                        {{res.first_name }}
+                        {{res.last_name}}
+                        {{res.email}}
                     </div>
                 </div>
 
@@ -214,7 +216,7 @@
         this.search = ''
       },
       isFiltered(name){
-        if (name.includes(this.search))
+        if (name.toLowerCase().includes(this.search.toLowerCase()))
           return true
         else
           return false
