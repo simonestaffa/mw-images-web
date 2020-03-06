@@ -40,14 +40,15 @@
                         <form @submit.prevent="uploadImage"
                               action="http://0.0.0.0:5000/auth/login"
                               method="post"
-                             id="upload-form">
+                              id="upload-form">
                             <div class="row">
                                 <div class="form-group col-4">
                                     <div class="custom-file">
                                         <label for="file-input">Title</label>
                                         <input type="file" class="custom-file-input" accept="image/*"
                                                id="file-input" @change="setImage" required>
-                                        <label id="file-label" class="custom-file-label" for="file-input">{{fileLabel}}</label>
+                                        <label id="file-label" class="custom-file-label"
+                                               for="file-input">{{fileLabel}}</label>
                                         <div class="invalid-feedback">Example invalid custom file feedback</div>
                                     </div>
                                 </div>
@@ -74,7 +75,9 @@
                                          alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{image.title}}</h5>
-                                        <button class="btn btn-primary btn-block">Download</button>
+                                        <button class="btn btn-primary btn-block" v-on:click="downloadImage(image.image_base64,image.title)">
+                                            Download
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +100,9 @@
 </template>
 
 <script>
-
+  import * as download from "downloadjs";
   export default {
-    name: 'Profile',
+    name: 'Home',
     data() {
       return {
         id: '',
@@ -185,6 +188,10 @@
           .catch(function (error) {
             console.log(error)
           });
+      },
+      downloadImage(data, filename) {
+        const mime_type = data.substring(5,data.indexOf(';'));
+        download(data, filename, mime_type);
       }
     }
   }
