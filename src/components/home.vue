@@ -34,13 +34,43 @@
                 </ul>
                 <div class="content mt-5">
                     <div id="images-tab" v-if="isActive === 'images'">
+                        <h5>Upload new image</h5>
+                        <br>
+
+                        <form @submit.prevent="uploadImage"
+                              action="http://0.0.0.0:5000/auth/login"
+                              method="post"
+                             id="upload-form">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <div class="custom-file">
+                                        <label for="file-input">Title</label>
+                                        <input type="file" class="custom-file-input" accept="image/*"
+                                               id="file-input" @change="setImage" required>
+                                        <label id="file-label" class="custom-file-label" for="file-input">{{fileLabel}}</label>
+                                        <div class="invalid-feedback">Example invalid custom file feedback</div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-left col-4">
+                                    <!--<label for="title">Title</label>-->
+                                    <input type="text" class="form-control" id="title"
+                                           name="title" v-model="image_title" placeholder="Image title" required/>
+                                </div>
+                                <div class="form-group col-4">
+                                    <button type="submit" class="btn btn-action btn-round">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
                         <div class="row">
                             <div v-for="image in images" class="col-3 p-1">
                                 <div class="card image-card">
-                                    <button type="button" class="close text-right pr-2" aria-label="Close" v-on:click="deleteImage(image.id)">
+                                    <button type="button" class="close text-right pr-2" aria-label="Close"
+                                            v-on:click="deleteImage(image.id)">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <img class="img-card-container card-img-top w-50 mx-auto d-block" v-bind:src="image.image_base64"
+                                    <img class="img-card-container card-img-top w-50 mx-auto d-block"
+                                         v-bind:src="image.image_base64"
                                          alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{image.title}}</h5>
@@ -58,8 +88,7 @@
                         Profile - call Retrieve User Profile
                     </div>
                 </div>
-                <br>
-                <input type="file" accept="image/*" @change="uploadImage" id="file-input"><br><br>
+
 
             </div>
         </div>
@@ -77,7 +106,10 @@
         token: '',
         isActive: 'images',
         images: [],
-        res: {}
+        image_input: null,
+        image_title: null,
+        res: {},
+        fileLabel: "Choose file..."
       };
     },
     mounted() {
@@ -118,7 +150,7 @@
         reader.readAsDataURL(file);
         reader.onload = () => {
           let payload = new Map([
-            ['title', file.name],
+            ['title', this.image_title ? this.image_title : file.name],
             ['image_base64', reader.result]
           ]);
           payload = Object.fromEntries(payload);
@@ -126,6 +158,8 @@
           this.$api.post('/images', payload)
             .then(response => {
               this.images = response.data;
+              this.fileLabel = "Choose file...";
+              this.image_title = null;
             })
             .catch(function (error) {
               console.log(error)
@@ -135,12 +169,14 @@
           console.log('Error: ', error);
         }
       },
-      uploadImage(event) {
-        let file = event.target.files[0];
-        this.getBase64(file)
+      uploadImage() {
+        this.getBase64(this.image_input)
+      },
+      setImage(event) {
+        this.fileLabel = event.target.files[0].name;
+        this.image_input = event.target.files[0];
       },
       deleteImage(images_id) {
-        console.log(images_id);
         this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
         this.$api.delete('/images/' + images_id)
           .then(response => {
@@ -165,7 +201,8 @@
         height: 270px;
         width: 220px;
     }
+
     .img-card-container {
-        height:132px;
+        height: 132px;
     }
 </style>
