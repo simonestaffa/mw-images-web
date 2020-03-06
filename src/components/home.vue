@@ -1,38 +1,38 @@
 <template>
     <div id="profile">
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent justify-content-between">
             <router-link class="navbar-brand"
-                    to="home"
-                    v-slot="{ href, route, navigate, isActive, isExactActive }">
-                <span><img src="../assets/images/22691782.jpg"  width="25" height="25" class="d-inline-block align-top" alt="">
+                         to="home"
+                         v-slot="{ href, route, navigate, isActive, isExactActive }">
+                <span><img src="../assets/images/22691782.jpg" width="25" height="25" class="d-inline-block align-top"
+                           alt="">
                 <a :href="href" @click="navigate">iMages</a></span>
             </router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!--<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#">Users</a>
-                    <a class="nav-item nav-link" href="#">Pricing</a>
-                    <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            <div id="navbarSupportedContent">
+                <div class="form-inline my-2 my-lg-0">
+                    <button type="button" class="btn btn-danger nav-item nav-right" v-on:click="logout">Logout</button>
                 </div>
-            </div>-->
+            </div>
+
         </nav>
         <div class="card no-border">
             <div class="card-body">
                 <h1>Hello {{ res.first_name }}!</h1>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a v-bind:class="{ active: isActive === 'images', 'nav-link': true }" data-toggle="tab" role="tab" aria-controls="images" aria-selected="true" v-on:click="selectTab('images')">Images</a>
+                        <a v-bind:class="{ active: isActive === 'images', 'nav-link': true }" data-toggle="tab"
+                           role="tab" aria-controls="images" aria-selected="true" v-on:click="selectTab('images')">Images</a>
                     </li>
                     <li class="nav-item">
-                        <a v-bind:class="{ active: isActive === 'users', 'nav-link': true }" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false" v-on:click="selectTab('users')">Users</a>
+                        <a v-bind:class="{ active: isActive === 'users', 'nav-link': true }" data-toggle="tab"
+                           role="tab" aria-controls="contact" aria-selected="false" v-on:click="selectTab('users')">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a v-bind:class="{ active: isActive === 'profile', 'nav-link': true }" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false" v-on:click="selectTab('profile')">Profile</a>
+                        <a v-bind:class="{ active: isActive === 'profile', 'nav-link': true }" data-toggle="tab"
+                           role="tab" aria-controls="profile" aria-selected="false" v-on:click="selectTab('profile')">Profile</a>
                     </li>
                 </ul>
-                <div class="content">
+                <div class="content mt-5">
                     <div id="images-tab" v-if="isActive === 'images'">
                         Images - call Retrieve Images
                     </div>
@@ -45,7 +45,7 @@
                 </div>
                 <br>
                 <input type="file" accept="image/*" @change="uploadImage" id="file-input"><br><br>
-                <button type="button" class="btn btn-danger" v-on:click="logout">Logout</button>
+
             </div>
         </div>
 
@@ -67,7 +67,7 @@
     },
     mounted() {
       this.$api.token = localStorage.getItem('user-token');
-      if (!this.$api.token){
+      if (!this.$api.token) {
         this.$router.replace({path: "/landing"});
       }
       this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
