@@ -52,7 +52,20 @@
 
                     </div>
                     <div id="users-tab" v-else-if="isActive === 'users'">
-                        Users - call Retrieve Users
+                        <div class="search-wrapper">
+                          <img class="searchIcon" v-if="!search" src="../assets/images/glass_icon.svg">
+                          <img class="resetIcon" v-else src="../assets/images/reset_icon.png"
+                          v-on:click="resetFilter" >
+                          <input type="text" v-model="search" placeholder="Search..."/>
+                        </div>
+                      <div id="searchResults">
+                        <ul id="user-list">
+                          <li v-for="user in users" :key="user.first_name" 
+                          v-if="isFiltered(user.first_name)">
+                            {{ user.first_name }}
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <div id="profile-tab" v-else-if="isActive === 'profile'">
                         Profile - call Retrieve User Profile
@@ -77,6 +90,8 @@
         token: '',
         isActive: 'images',
         images: [],
+        users: [],
+        search: "",
         res: {}
       };
     },
@@ -97,6 +112,12 @@
           console.log(response.data);
           this.images = response.data
         })
+        .catch(error => (console.log(error)));
+
+      this.$api.get('/users/')
+        .then(response => (
+          this.users = response.data
+        ))
         .catch(error => (console.log(error)));
     },
     methods: {
@@ -149,6 +170,15 @@
           .catch(function (error) {
             console.log(error)
           });
+      },
+      resetFilter(){
+        this.search = ''
+      },
+      isFiltered(name){
+        if (name.includes(this.search))
+          return true
+        else
+          return false
       }
     }
   }
@@ -167,5 +197,16 @@
     }
     .img-card-container {
         height:132px;
+    }
+    .searchIcon {
+    width: 28px;
+    height: 28px;
+    margin-right: 1%;
+    }
+    .resetIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 1%;
+    padding-bottom: .1%;
     }
 </style>
