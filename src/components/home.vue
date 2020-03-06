@@ -267,6 +267,7 @@
     .resetIcon {
     width: 28px;
     height: 28px;
+    
     margin-right: 1%;
     padding-bottom: .1%;
     }
