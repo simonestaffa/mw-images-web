@@ -85,19 +85,30 @@
 
                     </div>
                     <div id="users-tab" v-else-if="isActive === 'users'">
-                        <div class="search-wrapper">
+                        <div class="search-wrapper" style="">
                           <img class="searchIcon" v-if="!search" src="../assets/images/glass_icon.svg">
                           <img class="resetIcon" v-else src="../assets/images/reset_icon.png"
                           v-on:click="resetFilter" >
-                          <input type="text" v-model="search" placeholder="Search..."/>
+                          <input class="searchbar" type="text" v-model="search" placeholder="Search..."/>
                         </div>
                       <div id="searchResults">
-                        <ul id="user-list">
-                          <li v-for="user in users" :key="user.id" 
-                          v-if="isFiltered(user.first_name + user.last_name)">
-                            {{ user.first_name + " " + user.last_name}}
-                          </li>
-                        </ul>
+                        <table class="table table-condensed table-hover">
+                          <thead>
+                            <tr>
+                              <th class="span2"></th>
+                              <th class="span9"></th>
+                              <!--- <th class="span2"></th> --->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="user in users" :key="user.id" 
+                            v-if="isFiltered(user.first_name + user.last_name)">
+                              <td><strong>{{user.first_name + " " + user.last_name}}</strong></td>
+                              <td>{{user.email}}</td>
+                              <!--- <td><span class="pull-right">#immagini</span></td> --->
+                            </tr>
+                          </tbody>
+                          </table>
                       </div>
                     </div>
                     <div id="profile-tab" v-else-if="isActive === 'profile'">
@@ -235,14 +246,18 @@
         padding: 20px;
         margin-top: 10px;
     }
-
     .image-card {
         height: 270px;
         width: 220px;
     }
-
     .img-card-container {
         height: 132px;
+    }
+    .search-wrapper{
+      border-style : solid;
+      border-width: 5px;
+      border-color: #FFFFFF;
+
     }
     .searchIcon {
     width: 28px;
@@ -250,8 +265,8 @@
     margin-right: 1%;
     }
     .resetIcon {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     margin-right: 1%;
     padding-bottom: .1%;
     }
