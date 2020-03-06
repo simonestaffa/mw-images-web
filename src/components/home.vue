@@ -93,7 +93,7 @@
                         </div>
                       <div id="searchResults">
                         <ul id="user-list">
-                          <li v-for="user in users" :key="user.first_name" 
+                          <li v-for="user in users" :key="user.id" 
                           v-if="isFiltered(user.first_name)">
                             {{ user.first_name }}
                           </li>
@@ -119,7 +119,6 @@
     data() {
       return {
         id: '',
-        token: '',
         isActive: 'images',
         images: [],
         users: [],
@@ -132,6 +131,7 @@
     },
     mounted() {
       this.$api.token = localStorage.getItem('user-token');
+      //console.log(this.$api.token)
       if (!this.$api.token) {
         this.$router.replace({path: "/landing"});
       }
@@ -228,7 +228,7 @@
 </script>
 
 <style scoped>
-    #profile {
+    .profile {
         background-color: #FFFFFF;
         padding: 20px;
         margin-top: 10px;
