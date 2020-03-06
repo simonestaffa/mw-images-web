@@ -34,7 +34,22 @@
                 </ul>
                 <div class="content mt-5">
                     <div id="images-tab" v-if="isActive === 'images'">
-                        Images - call Retrieve Images
+                        <div class="row">
+                            <div v-for="image in images" class="col-3 p-1">
+                                <div class="card image-card">
+                                    <button type="button" class="close text-right pr-2" aria-label="Close" v-on:click="deleteImage(image.id)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <img class="img-card-container card-img-top w-50 mx-auto d-block" v-bind:src="image.image_base64"
+                                         alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{image.title}}</h5>
+                                        <button class="btn btn-primary btn-block">Download</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div id="users-tab" v-else-if="isActive === 'users'">
                         Users - call Retrieve Users
@@ -53,7 +68,6 @@
 </template>
 
 <script>
-  import * as axios from "axios";
 
   export default {
     name: 'Profile',
@@ -62,6 +76,7 @@
         id: '',
         token: '',
         isActive: 'images',
+        images: [],
         res: {}
       };
     },
@@ -75,6 +90,13 @@
         .then(response => (
           this.res = response.data
         ))
+        .catch(error => (console.log(error)));
+
+      this.$api.get('/images')
+        .then(response => {
+          console.log(response.data);
+          this.images = response.data
+        })
         .catch(error => (console.log(error)));
     },
     methods: {
@@ -95,18 +117,15 @@
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          console.log('xy');
           let payload = new Map([
             ['title', file.name],
-            ['image_base64', reader.result.substring(reader.result.indexOf(",") + 5)]
+            ['image_base64', reader.result]
           ]);
           payload = Object.fromEntries(payload);
           this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
           this.$api.post('/images', payload)
             .then(response => {
-              console.log('xy');
-              this.res = response.data;
-              console.log(JSON.stringify(response.data))
+              this.images = response.data;
             })
             .catch(function (error) {
               console.log(error)
@@ -119,6 +138,17 @@
       uploadImage(event) {
         let file = event.target.files[0];
         this.getBase64(file)
+      },
+      deleteImage(images_id) {
+        console.log(images_id);
+        this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
+        this.$api.delete('/images/' + images_id)
+          .then(response => {
+            this.images = response.data;
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
       }
     }
   }
@@ -129,5 +159,13 @@
         background-color: #FFFFFF;
         padding: 20px;
         margin-top: 10px;
+    }
+
+    .image-card {
+        height: 270px;
+        width: 220px;
+    }
+    .img-card-container {
+        height:132px;
     }
 </style>
