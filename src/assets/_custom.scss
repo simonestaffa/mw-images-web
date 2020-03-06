@@ -57,4 +57,7 @@ $secondary-hover: #4C8BC1;
 .card.no-border {
   border: none;
 }
-
+a { color: inherit; }
+a:link {
+  text-decoration: none;
+}
