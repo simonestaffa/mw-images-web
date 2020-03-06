@@ -63,7 +63,7 @@
                         </form>
                         <hr>
                         <div class="row">
-                            <div v-for="image in images" class="col-3 p-1">
+                            <div v-for="image in images" class="col-3 p-2">
                                 <div class="card image-card">
                                     <button type="button" class="close text-right pr-2" aria-label="Close"
                                             v-on:click="deleteImage(image.id)">
