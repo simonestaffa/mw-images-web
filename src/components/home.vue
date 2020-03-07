@@ -164,9 +164,23 @@
                         </div>
                     </div>
                     <div id="profile-tab" v-else-if="isActive === 'profile'">
-                        {{res.first_name }}
-                        {{res.last_name}}
-                        {{res.email}}
+                         <div class="row">
+                          <div class="col-xs-12 col-sm-6 col-md-6">
+                              <div class="well well-sm">
+                                  <div class="row">
+                                      <div class="col-sm-6 col-md-4">
+                                          <img src="http://placehold.it/200x120" alt="" class="img-rounded img-responsive" />
+                                      </div>
+                                      <div id="profileinfo" class="col-sm-6 col-md-8">
+                                          <h4 style="padding-left: 25px;"> {{res.first_name}} 
+                                          {{res.last_name}}</h4>
+                                            <h5 >{{res.email}}</h5>
+                                            <br />
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                 </div>
 
@@ -333,5 +347,13 @@
 
     .img-card-container {
         height: 132px;
+    }
+    body{padding-top:30px;}
+
+    .glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+    #profileinfo{
+      padding-left: 100px;
+      padding-top: 20px;
     }
 </style>
