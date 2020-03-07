@@ -138,7 +138,8 @@
                         </div>
                         <hr>
                         <div id="user-images">
-                            <div v-if="userImages.length > 0">
+                            <div v-if="userImages == undefined"></div> 
+                            <div v-else-if="userImages.length > 0">
                                 <h5>Images uploaded by {{userFirstName + " " + userLastName}}</h5>
                                 <div class="row">
                                     <div v-for="image in userImages" class="col-3 p-2">
@@ -208,7 +209,7 @@
         image_title: null,
         fileLabel: "Choose file...",
         uploadOk: null,
-        userImages: [],
+        userImages: undefined,
         userFirstName: "",
         userLastName: ""
       };
