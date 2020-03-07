@@ -22,8 +22,7 @@
                                     @submit="loginForm"
                                     @submit.prevent="login"
                                     action="http://0.0.0.0:5000/auth/login"
-                                    method="post"
-                            >
+                                    method="post">
                                 <div class="form-group text-left">
                                     <label for="exampleInputEmail1">Email address</label>
                                     <input type="email" class="form-control" id="exampleInputEmail1"
@@ -123,7 +122,6 @@
     },
     methods: {
       scrollToLogin: function (element, duration) {
-        console.log(element);
         const options = {
           easing: 'ease-in',
           offset: -60,

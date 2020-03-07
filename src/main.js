@@ -4,7 +4,19 @@ import router from './router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueScrollTo from 'vue-scrollto';
 import axios from 'axios'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {faSearch, faDownload, faFileUpload, faFileDownload, faUpload, faTimesCircle, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+library.add(faSearch);
+library.add(faDownload);
+library.add(faUpload);
+library.add(faFileDownload);
+library.add(faFileUpload);
+library.add(faTimesCircle);
+library.add(faCheckCircle);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use({
   install (Vue) {
     Vue.prototype.$api = axios.create({
