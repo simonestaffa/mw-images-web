@@ -39,8 +39,14 @@
                                     </small>
                                 </div>
                                 <button type="submit" class="btn btn-action btn-round">Login</button>
+                                or
+                                <g-signin-button
+                                  :params="googleSignInParams"
+                                  @success="onSignInSuccess"
+                                  @error="onSignInError">
+                                  Sign in with Google
+                                </g-signin-button>
                                 <br><br>
-                                <!--<button type="button" v-on:click="toggleLogin(false)"> Go to Signup </button>-->
                                 <small class="form-text text-muted" v-on:click="toggleLogin(false)"
                                        style="cursor: pointer;">Not registered yet? <span class="text-primary">Create an account!</span></small>
                             </form>
@@ -106,6 +112,9 @@
           last_name: null,
           email: null,
           password: null,
+        },
+        googleSignInParams: {
+          client_id: '295889193188-quukimlhei4n9t9bqiuvj8uqlc49o3mo.apps.googleusercontent.com'
         },
         error: null,
         res: {},
@@ -213,6 +222,14 @@
       toggleLogin(status) {
         this.error = null;
         this.showLogin = status;
+      },
+      onSignInSuccess (googleUser) {
+        // See https://developers.google.com/identity/sign-in/web/reference#users
+        const profile = googleUser.getBasicProfile() // etc etc
+      },
+      onSignInError (error) {
+        // `error` contains any error occurred.
+        console.log('OH NOES', error)
       }
     }
   }
@@ -236,4 +253,13 @@
     .landing {
         padding-bottom: 170px;
     }
+
+    .g-signin-button {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color: #3c82f7;
+    color: #fff;
+    box-shadow: 0 3px 0 #0f69ff;
+  }
 </style>

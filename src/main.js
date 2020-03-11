@@ -7,6 +7,9 @@ import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {faSearch, faDownload, faFileUpload, faFileDownload, faUpload, faTimesCircle, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import GSignInButton from 'vue-google-signin-button'
+import LoadScript from 'vue-plugin-load-script';
+ 
 
 library.add(faSearch);
 library.add(faDownload);
@@ -15,6 +18,10 @@ library.add(faFileDownload);
 library.add(faFileUpload);
 library.add(faTimesCircle);
 library.add(faCheckCircle);
+
+Vue.use(LoadScript);
+Vue.use(GSignInButton)
+Vue.loadScript("https://apis.google.com/js/api:client.js")
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use({
