@@ -88,6 +88,10 @@
                                        style="cursor: pointer;">Already registered? <span
                                         class="text-primary">Login!</span></small>
                             </form>
+                            <br>
+                            or
+                            <GoogleLogin class="GoogleLogin" :params="params" :onSuccess="onSignInSuccess" :onFailure="onSignInError">Sign in with Google</GoogleLogin>
+
                         </div>
                     </div>
                 </div>
