@@ -251,8 +251,7 @@
           });
       },
       onSignInError (error) {
-        // `error` contains any error occurred.
-        console.log('OH NOES', error)
+        this.error = error.message;
       }
     }
   }
