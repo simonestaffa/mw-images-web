@@ -87,7 +87,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{image.title}}</h5>
                                         <button class="btn btn-primary btn-block"
-                                                v-on:click="downloadImage(image.image_base64,image.title)">
+                                                v-on:click="downloadServerSide(image.id, image.title)">
                                             <font-awesome-icon icon="download"/>
                                             Download
                                         </button>
@@ -159,7 +159,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-else>
+                            <div v-else-if="userFirstName != '' && userLastName !== ''">
                                 <h5>{{userFirstName + " " + userLastName}} has't uploaded any image yet.</h5>
                             </div>
                         </div>
@@ -184,8 +184,6 @@
                       </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -194,7 +192,7 @@
 
 <script>
   import * as download from "downloadjs";
-
+  const FileDownload = require('js-file-download');
   export default {
     name: 'Home',
     data() {
@@ -305,6 +303,13 @@
       downloadImage(data, filename) {
         const mime_type = data.substring(5, data.indexOf(';'));
         download(data, filename, mime_type);
+      },
+      downloadServerSide(id, title) {
+        this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;
+        this.$api.get('/download/' + id, {responseType: 'blob'})
+          .then(response => {
+            FileDownload(response.data, title + '.png');
+          });
       },
       showUser(id,name,surname) {
         this.$api.defaults.headers.common['Authorization'] = `Bearer ${this.$api.token}`;

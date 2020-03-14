@@ -39,17 +39,13 @@
                                     </small>
                                 </div>
                                 <button type="submit" class="btn btn-action btn-round">Login</button>
-                                or
-                                <g-signin-button
-                                  :params="googleSignInParams"
-                                  @success="onSignInSuccess"
-                                  @error="onSignInError">
-                                  Sign in with Google
-                                </g-signin-button>
                                 <br><br>
                                 <small class="form-text text-muted" v-on:click="toggleLogin(false)"
                                        style="cursor: pointer;">Not registered yet? <span class="text-primary">Create an account!</span></small>
                             </form>
+                            <br>
+                            or
+                            <GoogleLogin class="GoogleLogin" :params="params" :onSuccess="onSignInSuccess" :onFailure="onSignInError">Sign in with Google</GoogleLogin>
                         </div>
                         <div v-else>
                             <h1>Create an account</h1>
@@ -103,6 +99,7 @@
 </template>
 
 <script>
+  import GoogleLogin from 'vue-google-login';
   export default {
     name: "landing",
     data() {
@@ -113,13 +110,23 @@
           email: null,
           password: null,
         },
-        googleSignInParams: {
-          client_id: '295889193188-quukimlhei4n9t9bqiuvj8uqlc49o3mo.apps.googleusercontent.com'
+        // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
+        params: {
+          client_id: '1032392426186-jr935ho2f6og31m0e2sshq2ej50kuh6q.apps.googleusercontent.com'
+        },
+        // only needed if you want to render the button with the google ui
+        renderParams: {
+          width: 250,
+          height: 50,
+          longtitle: true
         },
         error: null,
         res: {},
         showLogin: true
       }
+    },
+    components: {
+      GoogleLogin
     },
     mounted() {
       if (localStorage.getItem('user-token')) {
@@ -218,14 +225,30 @@
             }
           });
       },
-
       toggleLogin(status) {
         this.error = null;
         this.showLogin = status;
       },
       onSignInSuccess (googleUser) {
-        // See https://developers.google.com/identity/sign-in/web/reference#users
-        const profile = googleUser.getBasicProfile() // etc etc
+        let payload = new Map([
+          ['token', googleUser.uc.id_token]
+        ]);
+        payload = Object.fromEntries(payload);
+        this.$api.post('/auth/google', payload)
+          .then(
+            response => {
+              this.res = response.data;
+              console.log(response.data.authentication.access_token);
+              localStorage.setItem('user-token', response.data.authentication.access_token);
+              this.$api.token = response.data.authentication.access_token;
+              this.$router.replace({path: "/home/"})
+            }
+          )
+          .catch((e) => {
+            if (e.response.status !== 500) {
+              this.error = e.response.data.message;
+            }
+          });
       },
       onSignInError (error) {
         // `error` contains any error occurred.
@@ -254,12 +277,12 @@
         padding-bottom: 170px;
     }
 
-    .g-signin-button {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 3px;
-    background-color: #3c82f7;
-    color: #fff;
-    box-shadow: 0 3px 0 #0f69ff;
-  }
+    .GoogleLogin {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 3px;
+        background-color: #3c82f7;
+        color: #fff;
+        box-shadow: 0 3px 0 #0f69ff;
+    }
 </style>

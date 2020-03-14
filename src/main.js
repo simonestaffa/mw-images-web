@@ -9,7 +9,7 @@ import {faSearch, faDownload, faFileUpload, faFileDownload, faUpload, faTimesCir
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import GSignInButton from 'vue-google-signin-button'
 import LoadScript from 'vue-plugin-load-script';
- 
+
 
 library.add(faSearch);
 library.add(faDownload);
@@ -19,9 +19,6 @@ library.add(faFileUpload);
 library.add(faTimesCircle);
 library.add(faCheckCircle);
 
-Vue.use(LoadScript);
-Vue.use(GSignInButton)
-Vue.loadScript("https://apis.google.com/js/api:client.js")
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use({

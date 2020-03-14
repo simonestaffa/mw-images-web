@@ -13,7 +13,6 @@
       }
     },
     mounted() {
-      // Add a request interceptor
 
     },
     methods: {
