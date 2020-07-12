@@ -21,7 +21,7 @@
                             <form
                                     @submit="loginForm"
                                     @submit.prevent="login"
-                                    action="http://0.0.0.0:5000/auth/login"
+                                    action="https://cors-anywhere.herokuapp.com/http://ec2-52-90-106-146.compute-1.amazonaws.com:5000/auth/login"
                                     method="post">
                                 <div class="form-group text-left">
                                     <label for="exampleInputEmail1">Email address</label>
@@ -52,7 +52,7 @@
                             <form
                                     @submit="signupForm"
                                     @submit.prevent="signUp"
-                                    action="http://0.0.0.0:5000/auth/signup"
+                                    action="https://cors-anywhere.herokuapp.com/http://ec2-52-90-106-146.compute-1.amazonaws.com:5000/auth/signup"
                                     method="post"
                             >
                                 <div class="form-group text-left">

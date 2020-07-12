@@ -22,7 +22,7 @@ Vue.use({
   install (Vue) {
     Vue.prototype.$api = axios.create({
       token: "",
-      baseURL: 'http://localhost:5000/'
+      baseURL: 'https://cors-anywhere.herokuapp.com/http://ec2-52-90-106-146.compute-1.amazonaws.com:5000/'
     })
   }
 });

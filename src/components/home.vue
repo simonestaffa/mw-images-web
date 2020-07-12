@@ -47,7 +47,7 @@
                         <br>
 
                         <form @submit.prevent="uploadImage"
-                              action="http://0.0.0.0:5000/auth/login"
+                              action="https://cors-anywhere.herokuapp.com/http://ec2-52-90-106-146.compute-1.amazonaws.com:5000/auth/login"
                               method="post"
                               id="upload-form">
                             <div class="row">
