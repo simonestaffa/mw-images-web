@@ -166,7 +166,7 @@
                     </div>
                     <div id="profile-tab" v-else-if="isActive === 'profile'">
                          <div class="row">
-                          <div class="col-xs-12 col-sm-6 col-md-6">
+                          <div class="col-xs-12 col-sm-12 col-md-12">
                               <div class="well well-sm">
                                   <div class="row">
                                       <div class="col-sm-6 col-md-4">
