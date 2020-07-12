@@ -235,7 +235,7 @@
       },
       onSignInSuccess (googleUser) {
         let payload = new Map([
-          ['token', googleUser.uc.id_token]
+          ['token', googleUser.wc.id_token]
         ]);
         payload = Object.fromEntries(payload);
         this.$api.post('/auth/google', payload)
@@ -256,6 +256,7 @@
       },
       onSignInError (error) {
         this.error = error.message;
+        console.log(error);
       }
     }
   }
